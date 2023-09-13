@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using SummitTrackerClient.Context;
+using SummitTrackerClient.Services;
+using System.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,14 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI(); ;
 builder.Services.AddRazorPages();
+
+var dbConnection = builder.Configuration.GetSection("ConnectionStrings:DefaultConnection");
+
+builder.Services.AddDbContext<SummitTrackerDbContext>(option =>
+                option.UseSqlServer(""));
+
+builder.Services.AddTransient<ISummitTrackerService, SummitTrackerService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +46,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.MapControllerRoute(name: "peak",
+                pattern: "peak/{*peak}",
+                defaults: new { controller = "peak", action = "Index" });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

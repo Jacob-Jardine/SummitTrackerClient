@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SummitTrackerClient.Models;
+using SummitTrackerClient.Services;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace SummitTrackerClient.Controllers {
     public class HomeController : Controller {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISummitTrackerService _summitTrackerService;
 
-        public HomeController(ILogger<HomeController> logger) {
+        public HomeController(ILogger<HomeController> logger, ISummitTrackerService _summitTrackerService) {
             _logger = logger;
+            this._summitTrackerService = _summitTrackerService;
         }
 
-        public IActionResult Index() {
-            return View();
+        public async Task<IActionResult> Index() {
+            var x = await _summitTrackerService.GetMountains(); 
+            return View(x);
         }
 
         public IActionResult Privacy() {
