@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Azure;
 using SummitTrackerClient.Models;
+using SummitTrackerClient.Models.ViewModel;
 using SummitTrackerClient.Services;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -14,9 +17,21 @@ namespace SummitTrackerClient.Controllers {
             this._summitTrackerService = _summitTrackerService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index() {
-            var x = await _summitTrackerService.GetMountains(); 
+            var model = new IndexViewModel();
+
+            var x = await _summitTrackerService.GetPeaksDropdown();
+            model.Summits = x.Summits;
+
             return View(x);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Index(IndexViewModel model) {
+            
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy() {

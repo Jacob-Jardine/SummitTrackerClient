@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SummitTrackerClient.Context;
 using SummitTrackerClient.Models.DataModels;
 using SummitTrackerClient.Models.ViewModel;
@@ -14,26 +16,31 @@ namespace SummitTrackerClient.Services
             _context = context;
         }
 
-        public async Task<List<SummitViewModel>> GetMountains()
+        public async Task<IndexViewModel> GetPeaksDropdown()
         {
-            var x = new List<SummitViewModel>();
+            var x = new IndexViewModel();
 
-            var query = from Summit in _context.Set<SummitModel>()
-                        join Image in _context.Set<ImageModel>()
-                            on Summit.SummitID equals Image.SummitID
-                        where Summit.SummitName.Equals("Mount")
-                            select new { Summit.SummitID, Summit.SummitName, Summit.HeightMetres, Summit.HeightFt, Image.URL };
-            
-            foreach(var item in query)
-            {
-                x.Add(new SummitViewModel { 
-                    SummitID = item.SummitID, 
-                    SummitName = item.SummitName,
-                    HeightMetres = item.HeightMetres, 
-                    HeightFt = item.HeightFt, 
-                    URL = item.URL 
-                });
+            //var query = from Summit in _context.Set<SummitModel>()
+            //            join Image in _context.Set<ImageModel>()
+            //                on Summit.SummitID equals Image.SummitID
+            //            where Summit.SummitName.Equals("Mount")
+            //                select new { Summit.SummitID, Summit.SummitName, Summit.HeightMetres, Summit.HeightFt, Image.URL };
+
+            var query = _context.Summit.ToList();
+
+            foreach (var item in query) {
+                x.Summits.Add(new SelectListItem() { Value = $"{item.SummitID}", Text = item.SummitName });
             }
+            //foreach (var item in query)
+            //{
+            //    x.Add(new SummitViewModel { 
+            //        SummitID = item.SummitID, 
+            //        SummitName = item.SummitName,
+            //        HeightMetres = item.HeightMetres, 
+            //        HeightFt = item.HeightFt, 
+            //        URL = item.URL 
+            //    });
+            //}
 
             return x;
         }
@@ -58,6 +65,12 @@ namespace SummitTrackerClient.Services
             //        URL = item.URL
             //    });
             //}
+
+            return null;
+        }
+
+        public Task<SummitViewModel> InsertUserSummit() {
+
 
             return null;
         }

@@ -5,7 +5,8 @@ namespace SummitTrackerClient.Services
 {
     public interface ISummitTrackerService
     {
-        public Task<List<SummitViewModel>> GetMountains();
+        public Task<IndexViewModel> GetPeaksDropdown();
         public Task<SummitViewModel> GetPeak();
+        public Task<SummitViewModel> InsertUserSummit();
     }
 }

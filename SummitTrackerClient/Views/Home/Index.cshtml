@@ -1,15 +1,39 @@
-﻿@{
+﻿@using SummitTrackerClient.Models.ViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@model IndexViewModel
 
-<div class="text-left">
-    <h1 class="display-4">Summit Tracker</h1>
-    <h2>Track &amp; Share Your Asscents With Fellow Climbers!</h2>
-    <p>Summit Tracker is a free online analytical platform that specialises in tracker your assents globaly.</p>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <img class="w-100 shadow" src="https://summittracker.blob.core.windows.net/summit-tracker/D9bzCVeZLHQnZ6bUWvAkrW.jpg" />
+        </div>
+        <div class="col-lg-6">
+            <div class="p-5 mt-4">
+                <h1 class="display-4">Summit Tracker</h1>
+                <p class="lead">Summit Tracker is a free online analytical platform that specialises in tracking &amp; sharing your assents globaly!</p>
+                @if (User.Identity?.IsAuthenticated == true) {
+                    <a class="btn btn-outline-primary">Track Summit!</a>
+                }
+                else{
+                    <a class="btn btn-outline-primary" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign-up</a>
+                }
 
-    <button type="button" class="btn btn-primary">Sign-Up to start tracking your asscents</button>
-
-    <h1>Assents tracked on all 7 continents</h1>
-    <h1>More than 1k peaks summited</h1>
+            </div>
+        </div>
+    </div>
 </div>
+
+@if (User.Identity?.IsAuthenticated == true) {
+    @using (Html.BeginForm()) {
+        <div>
+            <h3>Select a summit</h3>
+            @Html.DropDownListFor(m => m.SelectedSummit, Model.Summits, "--Select Option--")
+            <button>Submit</button>
+        </div>
+    
+    }
+    
+}
