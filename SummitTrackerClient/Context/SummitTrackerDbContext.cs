@@ -10,5 +10,8 @@ namespace SummitTrackerClient.Context
         public SummitTrackerDbContext(DbContextOptions<SummitTrackerDbContext> options) : base(options) { }
         public virtual DbSet<SummitModel> Summit { get; set; }
         public virtual DbSet<ImageModel> Image { get; set; }
+        public virtual DbSet<UserSummitModel> UserSummit { get; set; }
+
+        
     }
 }

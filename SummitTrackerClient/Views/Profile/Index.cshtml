@@ -1,0 +1,17 @@
+﻿@using SummitTrackerClient.Models.ViewModel;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model ProfileViewModel
+
+<h1>Your ascents!</h1>
+@foreach(var item in Model.profileList)
+{
+
+    <h3>Summit: @item.SummitName Height: @item.HeightMetres m</h3>
+}
+
+<h3>Total metres ascended: @Model.totaltHeightMetres m</h3>

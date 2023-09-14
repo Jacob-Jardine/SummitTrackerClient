@@ -69,10 +69,27 @@ namespace SummitTrackerClient.Services
             return null;
         }
 
-        public Task<SummitViewModel> InsertUserSummit() {
+        public async Task InsertUserSummit(UserSummitModel model) {
 
+            _context.UserSummit.Add(model);
+            await _context.SaveChangesAsync();
+        }
 
-            return null;
+        public List<ProfileModel> GetProfile(string emailAddress)
+        {
+            var model =new List<ProfileModel>();
+
+            var query = from Summit in _context.Set<SummitModel>()
+                        join UserSummit in _context.Set<UserSummitModel>()
+                            on Summit.SummitID equals UserSummit.SummitID
+                            where UserSummit.EmailAddress.Equals(emailAddress)
+                        select new ProfileModel
+                        { 
+                            SummitName = Summit.SummitName, 
+                            HeightMetres = Summit.HeightMetres
+                        };
+
+            return query.ToList();
         }
     }
 }

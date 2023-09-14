@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Azure;
 using SummitTrackerClient.Models;
+using SummitTrackerClient.Models.DataModels;
 using SummitTrackerClient.Models.ViewModel;
 using SummitTrackerClient.Services;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace SummitTrackerClient.Controllers {
     public class HomeController : Controller {
@@ -30,7 +30,13 @@ namespace SummitTrackerClient.Controllers {
         [Authorize]
         [HttpPost]
         public ActionResult Index(IndexViewModel model) {
-            
+            if (!string.IsNullOrEmpty(model.SelectedSummit))
+            {
+                var summitModel = new UserSummitModel();
+                summitModel.SummitID = Int32.Parse(model.SelectedSummit);
+                summitModel.EmailAddress = User.Claims.Where(x => x.Type == "emails").First().Value.ToString();
+                _summitTrackerService.InsertUserSummit(summitModel);
+            }
             return RedirectToAction("Index");
         }
 
