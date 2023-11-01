@@ -7,8 +7,10 @@ namespace SummitTrackerClient.Services
     {
         public Task<IndexViewModel> GetPeaksDropdown();
         public Task<SummitViewModel> GetPeak();
-        public Task InsertUserSummit(UserSummitModel model);
+        public Task<bool> InsertUserSummit(UserSummitModel model);
 
         public List<ProfileModel> GetProfile(string emailAddress);
+        public Task AddSummit(SummitModel summit);
+        public Task AddGeography(GeographyModel model);
     }
 }

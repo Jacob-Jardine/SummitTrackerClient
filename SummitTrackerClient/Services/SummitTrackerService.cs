@@ -69,10 +69,11 @@ namespace SummitTrackerClient.Services
             return null;
         }
 
-        public async Task InsertUserSummit(UserSummitModel model) {
+        public async Task<bool> InsertUserSummit(UserSummitModel model) {
 
             _context.UserSummit.Add(model);
             await _context.SaveChangesAsync();
+            return true;
         }
 
         public List<ProfileModel> GetProfile(string emailAddress)
@@ -90,6 +91,16 @@ namespace SummitTrackerClient.Services
                         };
 
             return query.ToList();
+        }
+
+        public async Task AddSummit(SummitModel summit) {
+            _context.Summit.Add(summit);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddGeography(GeographyModel model) {
+            _context.Geography.Add(model);
+            await _context.SaveChangesAsync();
         }
     }
 }

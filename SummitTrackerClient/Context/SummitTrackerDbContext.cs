@@ -11,6 +11,7 @@ namespace SummitTrackerClient.Context
         public virtual DbSet<SummitModel> Summit { get; set; }
         public virtual DbSet<ImageModel> Image { get; set; }
         public virtual DbSet<UserSummitModel> UserSummit { get; set; }
+        public virtual DbSet<GeographyModel> Geography { get; set; }
 
         
     }

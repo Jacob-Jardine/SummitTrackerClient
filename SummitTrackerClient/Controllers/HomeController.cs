@@ -24,18 +24,20 @@ namespace SummitTrackerClient.Controllers {
             var x = await _summitTrackerService.GetPeaksDropdown();
             model.Summits = x.Summits;
 
-            return View(x);
+            model.TotalSupportedSummits = model.Summits.Count;
+
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult Index(IndexViewModel model) {
+        public async Task<ActionResult> Index(IndexViewModel model) {
             if (!string.IsNullOrEmpty(model.SelectedSummit))
             {
                 var summitModel = new UserSummitModel();
                 summitModel.SummitID = Int32.Parse(model.SelectedSummit);
                 summitModel.EmailAddress = User.Claims.Where(x => x.Type == "emails").First().Value.ToString();
-                _summitTrackerService.InsertUserSummit(summitModel);
+                await _summitTrackerService.InsertUserSummit(summitModel);
             }
             return RedirectToAction("Index");
         }

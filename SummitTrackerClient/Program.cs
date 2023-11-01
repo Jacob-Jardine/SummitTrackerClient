@@ -22,10 +22,10 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI(); ;
 builder.Services.AddRazorPages();
 
-var dbConnection = builder.Configuration.GetSection("ConnectionStrings:DefaultConnection");
+var dbConnection = builder.Configuration.GetSection("ConnectionStrings:DefaultConnection").Get<string>();
 
 builder.Services.AddDbContext<SummitTrackerDbContext>(option =>
-                option.UseSqlServer(""));
+                option.UseSqlServer(dbConnection));
 
 builder.Services.AddTransient<ISummitTrackerService, SummitTrackerService>();
 

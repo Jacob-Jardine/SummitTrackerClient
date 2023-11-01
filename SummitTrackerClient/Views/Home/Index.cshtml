@@ -5,26 +5,42 @@
 
 @model IndexViewModel
 
-<div class="container my-5">
+<link rel="stylesheet" href="~/css/landing.css" />
+
+@*<div class="page-scroll"></div>*@
+
+<div class="container my-6">
     <div class="row">
-        <div class="col-lg-6">
-            <img class="w-100 shadow" src="https://summittracker.blob.core.windows.net/summit-tracker/D9bzCVeZLHQnZ6bUWvAkrW.jpg" />
-        </div>
+        
         <div class="col-lg-6">
             <div class="p-5 mt-4">
                 <h1 class="display-4">Summit Tracker</h1>
-                <p class="lead">Summit Tracker is a free online analytical platform that specialises in tracking &amp; sharing your assents globaly!</p>
+                <p class="lead"></p> <p class="lead">Summit Tracker is a free online analytical platform that specialises in tracking &amp; sharing your ascents globaly!</p>
                 @if (User.Identity?.IsAuthenticated == true) {
                     <a class="btn btn-outline-primary">Track Summit!</a>
                 }
                 else{
                     <a class="btn btn-outline-primary" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign-up</a>
                 }
-
             </div>
         </div>
+            <div class="col-lg-6">
+                <img class="w-100 shadow" src="https://summittracker.blob.core.windows.net/summit-tracker/D9bzCVeZLHQnZ6bUWvAkrW.jpg" />
+            </div>
     </div>
 </div>
+
+<div class="container my-6 bg-light">
+    <div class="row">
+        <p class="lead">Summits Supported @Model.TotalSupportedSummits</p>
+        <p class="lead">Summits Asscebded @Model.Summits.Count</p>
+        @*<p class="lead">Metres Climbed @Model.TotalSupportedSummits</p>
+        <p class="lead">Ft Climbed @Model.TotalSupportedSummits</p>
+        <p class="lead">Counrties Conqured @Model.TotalSupportedSummits</p>*@
+    </div>
+</div>
+
+<a class="btn btn-outline-primary" asp-controller="c9660048_444e_4a0c_b0e7_0d6dad21079f" asp-action="Index">Admin</a>
 
 @if (User.Identity?.IsAuthenticated == true) {
     @using (Html.BeginForm()) {
@@ -37,3 +53,4 @@
     }
     
 }
+
